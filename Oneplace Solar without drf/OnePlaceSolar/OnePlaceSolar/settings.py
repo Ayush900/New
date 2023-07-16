@@ -36,9 +36,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-    'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
@@ -56,17 +57,35 @@ INSTALLED_APPS = [
     'ClientDashboard',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'django_cleanup.apps.CleanupConfig'
 ]
 
+
 MIDDLEWARE = [
+    # Add the TokenExpirationMiddleware here
+    # 'ClientDashboard.middlewares.TokenExpirationMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    # Other middleware classes...
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+# MIDDLEWARE = [
+#     'ClientDashboard.middlewares.TokenExpirationMiddleware',
+#     'django.middleware.security.SecurityMiddleware',
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.contrib.auth.middleware.AuthenticationMiddleware',
+#     'django.contrib.messages.middleware.MessageMiddleware',
+#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+# ]
 
 ROOT_URLCONF = 'OnePlaceSolar.urls'
 
@@ -99,14 +118,25 @@ WSGI_APPLICATION = 'OnePlaceSolar.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'oneplacesolardb',
+#         'USER': 'oneplacesolarbduser',
+#         'PASSWORD': 'MLSJ##$$2003mls',
+#         'HOST': 'localhost',
+#         'PORT': '3306'
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'oneplacesolardb',
-        'USER': 'oneplacesolarbduser',
-        'PASSWORD': 'MLSJ##$$2003mls',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'oneplacesolar',
+        'USER': 'root',
+        'PASSWORD': 'UueYnggZjxKJeUsrmn5c',
+        'HOST': 'oneplacesolardpostgres.cbt6lx1ryncp.us-east-1.rds.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
@@ -136,7 +166,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -148,8 +178,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
